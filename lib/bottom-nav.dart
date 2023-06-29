@@ -9,12 +9,12 @@ class BottomWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(15.0),
       color: Colors.grey[200],
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Icon(Icons.home, size: 30),
-          Icon(Icons.search, size: 30,),
-          Icon(Icons.settings, size: 30,),
+          Image.asset("assets/activity1.png", width: 30, height: 30),
+          Image.asset("assets/plus3.png", width: 30, height: 30),
+          Image.asset("assets/settings1.png", width: 30, height: 30),
         ],
       ),
     );

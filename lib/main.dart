@@ -28,7 +28,7 @@ Widget build(BuildContext context) {
       body: Column(
         children: [
           Container(
-            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0), // Adjust the padding as needed
+            padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0),
             child: const Align(
               alignment: Alignment.centerLeft,
               child: Text(
@@ -41,7 +41,7 @@ Widget build(BuildContext context) {
               ),
             ),
           ),
-          const SizedBox(height: 2.0), // Adjust the height as needed
+          const SizedBox(height: 2.0), 
           SearchBarWidget(
             controller: _controller,
             onSearch: handleSearch,
@@ -50,11 +50,7 @@ Widget build(BuildContext context) {
          
          // ADD
           const SizedBox(height: 2.0),
-          const GroupSectionWidget(
-            
-          ),// Adjust the height as needed
-
-
+          const GroupSectionWidget(),
         ],
       ),
       bottomNavigationBar: const BottomWidget(),

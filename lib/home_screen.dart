@@ -12,8 +12,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<String> pinnedChats = ['Personal Chat'];
   List<String> groups = [
-    'Personal Chat',
     'Group 1',
     'Group 2',
     'Group 3',
@@ -27,12 +27,13 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   void removeGroup(int index) {
-    if (index == 0) {
-      // Do not remove the personal chat card
-      return;
-    }
     setState(() {
-      groups.removeAt(index);
+      if (filteredGroups.isNotEmpty) {
+        groups.remove(filteredGroups[index - pinnedChats.length]);
+        filteredGroups.removeAt(index - pinnedChats.length);
+      } else {
+        groups.removeAt(index - pinnedChats.length);
+      }
     });
   }
 
@@ -93,14 +94,14 @@ class _HomeScreenState extends State<HomeScreen> {
     }
 
     return ListView.builder(
-      itemCount: groupsToShow.length + 3, // Add 3 for Personal Chat card, header, and "Add Group" button
+      itemCount: pinnedChats.length + groupsToShow.length + 1, // Add 1 for "Add Group" button
       itemBuilder: (context, index) {
         if (index == 0) {
           return ChatCard(
-            groupName: 'Personal Chat',
+            groupName: pinnedChats[0],
             isRemovable: false,
           );
-        } else if (index == 1) {
+        } else if (index == pinnedChats.length) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Align(
@@ -114,19 +115,17 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           );
-        } else if (index == 2) {
-          // Line separator under "Groups" header
-          return Container(
-            width: double.infinity,
-            height: 1.0,
-            color: Colors.black,
+        } else if (index == pinnedChats.length + groupsToShow.length) {
+          return CustomButton(
+            onPressed: addGroup,
+            label: 'Add Group Chat',
           );
         } else {
-          final group = groupsToShow[index - 3];
+          final group = groupsToShow[index - pinnedChats.length];
           return Dismissible(
             key: Key(group),
             direction: DismissDirection.endToStart,
-            onDismissed: (direction) => removeGroup(index - 3),
+            onDismissed: (direction) => removeGroup(index - pinnedChats.length),
             background: Container(
               color: Colors.red,
               alignment: Alignment.centerRight,
@@ -136,14 +135,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: Colors.white,
               ),
             ),
-            child: Column(
-              children: [
-                ChatCard(
-                  groupName: group,
-                  isRemovable: true,
-                ),
-                if (index == groupsToShow.length + 2) SizedBox(height: 16.0), // Add spacing after the last group
-              ],
+            child: ChatCard(
+              groupName: group,
+              isRemovable: true,
             ),
           );
         }
@@ -167,10 +161,6 @@ class _HomeScreenState extends State<HomeScreen> {
           SizedBox(height: 16.0), // Add spacing before the group list
           Expanded(child: buildGroupList()),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: addGroup,
-        child: const Icon(Icons.add),
       ),
     );
   }

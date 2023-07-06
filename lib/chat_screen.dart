@@ -35,7 +35,12 @@ class _ChatScreenState extends State<ChatScreen> {
                   checkedItems[index] = value!;
                 });
               },
-              backgroundColor: checkedItems[index] ? Colors.grey[700]! : Colors.white,
+              backgroundColor:
+                  checkedItems[index] ? Colors.grey[700]! : Colors.white,
+              senderName: 'Sender Name',
+              senderProfilePicture: '../assets/samplepic.png',
+              tags: ['Tag1', 'Tag2', 'Tag3'],
+              cardImage: '../assets/samplepic.png',
             );
           },
         ),

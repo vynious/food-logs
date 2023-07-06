@@ -1,3 +1,4 @@
+// checklist_item.dart
 import 'package:flutter/material.dart';
 
 class ChecklistItem extends StatelessWidget {
@@ -29,6 +30,8 @@ class ChecklistItem extends StatelessWidget {
         Checkbox(
           value: isChecked,
           onChanged: onChanged,
+          activeColor:
+              backgroundColor, // Set activeColor to match backgroundColor
         ),
         Expanded(
           child: Padding(

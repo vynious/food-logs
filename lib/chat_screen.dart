@@ -24,82 +24,97 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          widget.groupTitle,
-          style: Theme.of(context)
-              .textTheme
-              .headline6!
-              .copyWith(color: Colors.black), // Set title text color to black
-        ),
-        backgroundColor: Colors.grey[200], // Set backgroundColor to match the container color
-        elevation: 0.0,
-        iconTheme: IconThemeData(color: Colors.black), // Set icon color to black
-        actions: [
-          IconButton(
-            onPressed: () {
-              setState(() {
-                filterOption = FilterOption.checkedOff;
-              });
-            },
-            icon: Icon(
-              Icons.check_box,
-              color: filterOption == FilterOption.checkedOff ? Colors.black : Colors.grey,
-            ),
-          ),
-          IconButton(
-            onPressed: () {
-              setState(() {
-                filterOption = FilterOption.notCheckedOff;
-              });
-            },
-            icon: Icon(
-              Icons.check_box_outline_blank,
-              color: filterOption == FilterOption.notCheckedOff ? Colors.black : Colors.grey,
-            ),
-          ),
-        ],
+      appBar: buildAppBar(),
+      body: buildChatBody(),
+      floatingActionButton: buildFloatingActionButton(),
+    );
+  }
+
+  AppBar buildAppBar() {
+    return AppBar(
+      title: Text(
+        widget.groupTitle,
+        style: Theme.of(context)
+            .textTheme
+            .headline6!
+            .copyWith(color: Colors.black),
       ),
-      body: Container(
-        color: Colors.grey[200],
-        child: ListView.builder(
-          itemCount: itemCount,
-          itemBuilder: (context, index) {
-            bool isVisible = filterOption == FilterOption.checkedOff ? checkedItems[index] : !checkedItems[index];
-            return Visibility(
-              visible: isVisible,
-              child: ChecklistItem(
-                itemText: 'Item $index',
-                isChecked: checkedItems[index],
-                onChanged: (value) {
-                  setState(() {
-                    checkedItems[index] = value!;
-                  });
-                },
-                backgroundColor: checkedItems[index] ? Colors.grey[400]! : Colors.white,
-                senderName: 'Sender Name',
-                senderProfilePicture: '../assets/samplepic.png',
-                tags: ['Tag1', 'Tag2', 'Tag3'],
-                cardImage: '../assets/samplepic.png',
-              ),
-            );
-          },
+      backgroundColor: Colors.grey[200],
+      elevation: 0.0,
+      iconTheme: IconThemeData(color: Colors.black),
+      actions: [
+        buildFilterIconButton(
+          Icons.check_box,
+          FilterOption.checkedOff,
         ),
-      ),
-      floatingActionButton: SizedBox(
-        width: 40.0,
-        height: 40.0,
-        child: FloatingActionButton(
-          onPressed: () {
-            setState(() {
-              itemCount++;
-              checkedItems.add(false);
-            });
-          },
-          backgroundColor: Colors.grey[500],
-          child: Icon(Icons.add),
+        buildFilterIconButton(
+          Icons.check_box_outline_blank,
+          FilterOption.notCheckedOff,
         ),
+      ],
+    );
+  }
+
+  IconButton buildFilterIconButton(IconData icon, FilterOption option) {
+    final isSelected = filterOption == option;
+    return IconButton(
+      onPressed: () {
+        setState(() {
+          filterOption = option;
+        });
+      },
+      icon: Icon(
+        icon,
+        color: isSelected ? Colors.black : Colors.grey,
       ),
+    );
+  }
+
+  Widget buildChatBody() {
+    return Container(
+      color: Colors.grey[200],
+      child: ListView.builder(
+        itemCount: itemCount,
+        itemBuilder: (context, index) {
+          final isVisible = filterOption == FilterOption.checkedOff
+              ? checkedItems[index]
+              : !checkedItems[index];
+          return Visibility(
+            visible: isVisible,
+            child: buildChecklistItem(index),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget buildChecklistItem(int index) {
+    return ChecklistItem(
+      itemText: 'Item $index',
+      isChecked: checkedItems[index],
+      onChanged: (value) {
+        setState(() {
+          checkedItems[index] = value!;
+        });
+      },
+      backgroundColor: checkedItems[index] ? Colors.grey[400]! : Colors.white,
+      senderName: 'Sender Name',
+      senderProfilePicture: '../assets/samplepic.png',
+      tags: ['Tag1', 'Tag2', 'Tag3'],
+      cardImage: '../assets/samplepic.png',
+    );
+  }
+
+  FloatingActionButton buildFloatingActionButton() {
+    return FloatingActionButton(
+      onPressed: () {
+        setState(() {
+          itemCount++;
+          checkedItems.add(false);
+        });
+      },
+      backgroundColor: Colors.grey[500],
+      child: Icon(Icons.add),
     );
   }
 }

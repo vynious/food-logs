@@ -1,5 +1,3 @@
-// chat_screen.dart
-
 import 'package:flutter/material.dart';
 import 'components/checklist_item.dart';
 
@@ -36,7 +34,7 @@ class _ChatScreenState extends State<ChatScreen> {
                 });
               },
               backgroundColor:
-                  checkedItems[index] ? Colors.grey[700]! : Colors.white,
+                  checkedItems[index] ? Colors.grey[400]! : Colors.white,
               senderName: 'Sender Name',
               senderProfilePicture: '../assets/samplepic.png',
               tags: ['Tag1', 'Tag2', 'Tag3'],
@@ -45,14 +43,19 @@ class _ChatScreenState extends State<ChatScreen> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            itemCount++;
-            checkedItems.add(false);
-          });
-        },
-        child: Icon(Icons.add),
+      floatingActionButton: SizedBox(
+        width: 40.0,
+        height: 40.0,
+        child: FloatingActionButton(
+          onPressed: () {
+            setState(() {
+              itemCount++;
+              checkedItems.add(false);
+            });
+          },
+          backgroundColor: Colors.grey[500],
+          child: Icon(Icons.add),
+        ),
       ),
     );
   }

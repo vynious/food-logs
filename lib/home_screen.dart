@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:foodlog/signup_page.dart';
 import 'chat_card.dart';
 import 'custom_button.dart';
+import 'login_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key, required this.title}) : super(key: key);
@@ -184,12 +186,22 @@ class _HomeScreenState extends State<HomeScreen> {
               icon: Icon(Icons.home),
               onPressed: () {
                 // Handle home icon click
+                 Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                  );
+
               },
             ),
             IconButton(
               icon: Icon(Icons.notifications),
               onPressed: () {
                 // Handle notifications icon click
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SignUpPage()),
+                  );
+
               },
             ),
             IconButton(
